@@ -4,6 +4,6 @@ import retrofit2.Retrofit
 
 class ApiService {
     companion object{
-        fun getApi(retrofit: Retrofit) = retrofit.create(BinanceApiService::class.java)
+        fun getApi(retrofit: Retrofit): BinanceApiService = retrofit.create(BinanceApiService::class.java)
     }
 }
