@@ -12,14 +12,11 @@ import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_exchange_info.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.support.closestKodein
 import org.kodein.di.generic.instance
 import ru.supernacho.kt.binancetest.R
-import ru.supernacho.kt.binancetest.model.entity.Response
-import ru.supernacho.kt.binancetest.model.entity.TickerResponse
 import ru.supernacho.kt.binancetest.presenter.ExchangeInfoPresenter
 import ru.supernacho.kt.binancetest.view.adapters.ExchangeInfoRVAdapter
 import ru.supernacho.kt.binancetest.view.uimodel.ExInfoUiModel
@@ -46,7 +43,7 @@ class ExchangeInfoFragment : MvpAppCompatFragment(), ExchangeInfoView, KodeinAwa
     fun providePresenter() = injectedPresenter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        srl_ExchangeInfo.setOnRefreshListener { exchangePresenter.requestExchangeInfo() }
+        srl_ExchangeInfo.setOnRefreshListener { exchangePresenter.requestTicker24h() }
         initFirstRequest()
         initRecycler()
     }

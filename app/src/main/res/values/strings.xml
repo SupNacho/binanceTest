@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">BinanceTest</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pair_name">Pair name</string>
+    <string name="high_price">High Price</string>
+    <string name="avg_price">Avg Price</string>
+    <string name="low_price">Low price</string>
+    <string name="change_percent_price">Change %</string>
+    <string name="status">Status</string>
+    <string name="first_currency">1st currency</string>
+    <string name="second_currency">2nd currency</string>
 </resources>
