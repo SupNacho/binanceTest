@@ -17,18 +17,13 @@ class ExchangeInfoPresenter(
 ) : MvpPresenter<ExchangeInfoView>() {
     private val compositeDisposable = CompositeDisposable()
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
-        requestTicker24h()
-    }
-
     fun requestTicker24h() {
-        compositeDisposable.clear()
+        release() // call it to avoid duplicate requests if its already started (swipe refresh layout use case)
         val disposable = netRepository.getTicker24hr()
             .subscribeOn(Schedulers.io())
             .map { response -> response.map { e -> TickerResponseAdapter.adapt(e) } }
-            .observeOn(uiScheduler)
             .repeatWhen { o -> o.delay(2600L, TimeUnit.MILLISECONDS) } //2600 ms delay for repeat request + ~400ms for response give ~3000ms for screen update
+            .observeOn(uiScheduler)
             .doOnError { t -> viewState.onReceivingError(t) }
             .subscribe { l ->
                 l?.let {
@@ -38,8 +33,12 @@ class ExchangeInfoPresenter(
         compositeDisposable.add(disposable)
     }
 
-    override fun onDestroy() {
+    fun release(){
         compositeDisposable.clear()
+    }
+
+    override fun onDestroy() {
+        release()
         super.onDestroy()
     }
 }

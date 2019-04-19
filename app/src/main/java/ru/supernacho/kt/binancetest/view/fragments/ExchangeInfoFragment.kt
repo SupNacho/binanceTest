@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -27,10 +28,14 @@ class ExchangeInfoFragment : MvpAppCompatFragment(), ExchangeInfoView, KodeinAwa
     override val kodein by closestKodein()
 
     private val injectedPresenter: ExchangeInfoPresenter by instance()
-    private var rvAdapter : ExchangeInfoRVAdapter? = null
+    private var rvAdapter: ExchangeInfoRVAdapter? = null
 
     @InjectPresenter
     lateinit var exchangePresenter: ExchangeInfoPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +48,21 @@ class ExchangeInfoFragment : MvpAppCompatFragment(), ExchangeInfoView, KodeinAwa
     fun providePresenter() = injectedPresenter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        srl_ExchangeInfo.setOnRefreshListener { exchangePresenter.requestTicker24h() }
+        initButtons(view)
         initFirstRequest()
         initRecycler()
+        initRequests()
+    }
+
+    private fun initButtons(view: View) {
+        srl_ExchangeInfo.setOnRefreshListener { initRequests() }
+        btn_ExchangeInfoToAcc.setOnClickListener {
+            view.findNavController().navigate(R.id.action_exchangeInfoFragment_to_accountFragment)
+        }
+    }
+
+    private fun initRequests() {
+        exchangePresenter.requestTicker24h()
     }
 
     private fun initFirstRequest() {
@@ -60,16 +77,15 @@ class ExchangeInfoFragment : MvpAppCompatFragment(), ExchangeInfoView, KodeinAwa
         rv_ExchangeInfo.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
     }
 
-    override fun onReceiveExchangeInfo(response: List<ExInfoUiModel>) {
-        srl_ExchangeInfo.isRefreshing = false
-        Timber.d("Received info Data")
-        rvAdapter?.setData(response)
+    override fun onStop() {
+        super.onStop()
+        rvAdapter = null
+        exchangePresenter.release()
     }
 
     override fun onReceiveTicker24hr(response: List<ExInfoUiModel>) {
         srl_ExchangeInfo.isRefreshing = false
-        Timber.d("Received ticker Data")
-        response.let { rvAdapter?.setData(it) }
+        rvAdapter?.setData(response)
     }
 
     override fun onReceivingError(t: Throwable) {

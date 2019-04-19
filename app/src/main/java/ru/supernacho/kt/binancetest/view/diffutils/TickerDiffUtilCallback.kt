@@ -1,7 +1,6 @@
 package ru.supernacho.kt.binancetest.view.diffutils
 
 import android.support.v7.util.DiffUtil
-import ru.supernacho.kt.binancetest.model.entity.TickerResponse
 import ru.supernacho.kt.binancetest.view.uimodel.ExInfoUiModel
 
 class TickerDiffUtilCallback(

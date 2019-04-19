@@ -4,12 +4,12 @@ import ru.supernacho.kt.binancetest.model.entity.TickerResponse
 import ru.supernacho.kt.binancetest.view.uimodel.ExInfoUiModel
 
 object TickerResponseAdapter {
-    fun adapt(tickerEvent: TickerResponse): ExInfoUiModel{
+    fun adapt(tickerResponse: TickerResponse): ExInfoUiModel{
         return ExInfoUiModel(
-            symbol = tickerEvent.symbol,
-            avgPrice = tickerEvent.weightedAvgPrice,
-            highPrice = tickerEvent.highPrice,
-            lowPrice = tickerEvent.lowPrice,
-            percentChange = tickerEvent.priceChangePercent)
+            symbol = tickerResponse.symbol,
+            avgPrice = tickerResponse.weightedAvgPrice,
+            highPrice = tickerResponse.highPrice,
+            lowPrice = tickerResponse.lowPrice,
+            percentChange = tickerResponse.priceChangePercent)
     }
 }

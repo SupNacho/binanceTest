@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">BinanceTest</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pair_name">Pair name</string>
     <string name="high_price">High Price</string>
     <string name="avg_price">Avg Price</string>
@@ -11,4 +9,20 @@
     <string name="status">Status</string>
     <string name="first_currency">1st currency</string>
     <string name="second_currency">2nd currency</string>
+    <string name="update">update</string>
+    <string name="balance">Balance</string>
+    <string name="buyer">Buyer</string>
+    <string name="taker">Taker</string>
+    <string name="maker">Maker</string>
+    <string name="permissions">Permissions</string>
+    <string name="seller">Seller</string>
+    <string name="commissions">Commissions</string>
+    <string name="trade">Trade</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="deposit">Deposit</string>
+    <string name="currency">Currency</string>
+    <string name="free_amount">Free Amount</string>
+    <string name="locked">Locked Amount</string>
+    <string name="account">Account</string>
+    <string name="open_account">Open Account</string>
 </resources>

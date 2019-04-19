@@ -8,7 +8,6 @@ import ru.supernacho.kt.binancetest.view.uimodel.ExInfoUiModel
 
 @StateStrategyType(value = SkipStrategy::class)
 interface ExchangeInfoView: MvpView {
-    fun onReceiveExchangeInfo(response: List<ExInfoUiModel>)
     fun onReceiveTicker24hr(response: List<ExInfoUiModel>)
     fun onReceivingError(t: Throwable)
 }
