@@ -17,7 +17,7 @@ class ExchangeInfoPresenter(
     private val netRepository: INetRepository
 ) : MvpPresenter<ExchangeInfoView>() {
     private val compositeDisposable = CompositeDisposable()
-    private var cacheDataList : List<ExInfoUiModel>? = ArrayList()
+    private var cacheDataList : List<ExInfoUiModel>? = null
 
     fun requestTicker24h() {
         release() // call it to avoid duplicate requests if its already started (swipe refresh layout use case)

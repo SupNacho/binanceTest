@@ -9,14 +9,11 @@ import ru.supernacho.kt.binancetest.R
 import ru.supernacho.kt.binancetest.view.diffutils.TickerDiffUtilCallback
 import ru.supernacho.kt.binancetest.view.uimodel.ExInfoUiModel
 
-class ExchangeInfoRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var exchangeInfoList: List<ExInfoUiModel> = ArrayList()
-       private set
+class ExchangeInfoRVAdapter : BaseRVAdapter<ExInfoUiModel>() {
 
     fun setData(list: List<ExInfoUiModel>){
-        val diffResult = DiffUtil.calculateDiff(TickerDiffUtilCallback(exchangeInfoList, list), false)
-        exchangeInfoList = list
+        val diffResult = DiffUtil.calculateDiff(TickerDiffUtilCallback(dataList, list), true)
+        dataList = list
         diffResult.dispatchUpdatesTo(this)
     }
 
@@ -25,10 +22,8 @@ class ExchangeInfoRVAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return object: RecyclerView.ViewHolder(view){}
     }
 
-    override fun getItemCount() = exchangeInfoList.size
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val pair = exchangeInfoList[position]
+        val pair = dataList[position]
         holder.itemView.tv_ItemExchangeInfoPair.text = pair.symbol
         holder.itemView.tv_ItemExInfoAvgPrice.text = pair.avgPrice
         holder.itemView.tv_ItemExInfoPriceChangePercent.text = pair.percentChange
