@@ -31,7 +31,6 @@ dependencies {
 
     def nav_fragment_version = "1.0.0"
     def nav_version = "1.0.0"
-    def nav_test_version = "1.0.0-alpha06"
 
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_fragment_version" // use -ktx for Kotlin
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version" // use -ktx for Kotlin
@@ -69,4 +68,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'org.mockito:mockito-android:2.27.0'
 }
