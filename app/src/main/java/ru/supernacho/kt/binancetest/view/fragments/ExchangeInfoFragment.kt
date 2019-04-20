@@ -2,6 +2,7 @@ package ru.supernacho.kt.binancetest.view.fragments
 
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -21,7 +22,6 @@ import ru.supernacho.kt.binancetest.R
 import ru.supernacho.kt.binancetest.presenter.ExchangeInfoPresenter
 import ru.supernacho.kt.binancetest.view.adapters.ExchangeInfoRVAdapter
 import ru.supernacho.kt.binancetest.view.uimodel.ExInfoUiModel
-import timber.log.Timber
 
 class ExchangeInfoFragment : MvpAppCompatFragment(), ExchangeInfoView, KodeinAware {
 
@@ -32,9 +32,13 @@ class ExchangeInfoFragment : MvpAppCompatFragment(), ExchangeInfoView, KodeinAwa
 
     @InjectPresenter
     lateinit var exchangePresenter: ExchangeInfoPresenter
+    var state: Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        savedInstanceState?.let {
+            state = it.getParcelable("recycler")
+        }
     }
 
     override fun onCreateView(
@@ -49,9 +53,11 @@ class ExchangeInfoFragment : MvpAppCompatFragment(), ExchangeInfoView, KodeinAwa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initButtons(view)
-        initFirstRequest()
+        if (savedInstanceState == null)
+            initFirstRequest()
         initRecycler()
         initRequests()
+
     }
 
     private fun initButtons(view: View) {
@@ -75,6 +81,17 @@ class ExchangeInfoFragment : MvpAppCompatFragment(), ExchangeInfoView, KodeinAwa
         rv_ExchangeInfo.layoutManager = layoutManager
         rv_ExchangeInfo.adapter = rvAdapter
         rv_ExchangeInfo.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        exchangePresenter.getCache()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("recycler", rv_ExchangeInfo?.layoutManager?.onSaveInstanceState())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        rv_ExchangeInfo.layoutManager?.onRestoreInstanceState(state)
     }
 
     override fun onStop() {

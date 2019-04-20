@@ -7,6 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import ru.supernacho.kt.binancetest.model.repository.INetRepository
 import ru.supernacho.kt.binancetest.view.fragments.ExchangeInfoView
+import ru.supernacho.kt.binancetest.view.uimodel.ExInfoUiModel
 import ru.supernacho.kt.binancetest.view.uimodel.adapter.TickerResponseAdapter
 import java.util.concurrent.TimeUnit
 
@@ -16,6 +17,7 @@ class ExchangeInfoPresenter(
     private val netRepository: INetRepository
 ) : MvpPresenter<ExchangeInfoView>() {
     private val compositeDisposable = CompositeDisposable()
+    private var cacheDataList : List<ExInfoUiModel>? = ArrayList()
 
     fun requestTicker24h() {
         release() // call it to avoid duplicate requests if its already started (swipe refresh layout use case)
@@ -27,6 +29,7 @@ class ExchangeInfoPresenter(
             .doOnError { t -> viewState.onReceivingError(t) }
             .subscribe { l ->
                 l?.let {
+                    cacheDataList = it
                     viewState.onReceiveTicker24hr(it)
                 }
             }
@@ -35,6 +38,10 @@ class ExchangeInfoPresenter(
 
     fun release(){
         compositeDisposable.clear()
+    }
+
+    fun getCache(){
+        cacheDataList?.let { viewState.onReceiveTicker24hr(it) }
     }
 
     override fun onDestroy() {
